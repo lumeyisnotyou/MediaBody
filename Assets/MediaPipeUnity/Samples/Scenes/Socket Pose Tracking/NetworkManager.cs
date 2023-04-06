@@ -1,5 +1,4 @@
 using Mediapipe.Unity;
-using System;
 using UnityEngine;
 
 public class NetworkManager : MonoBehaviour
@@ -36,7 +35,7 @@ public class NetworkManager : MonoBehaviour
   // Average 23 and 24 for Hips
   void Update()
   {
-    if (oscClient == null)
+    if (oscClient == null || pointListAnnotation.Landmarks == null)
       return;
 
     if (IsCombinedPointValid((int)MediaPipeBodyPart.Hips_L, (int)MediaPipeBodyPart.Hips_R))
