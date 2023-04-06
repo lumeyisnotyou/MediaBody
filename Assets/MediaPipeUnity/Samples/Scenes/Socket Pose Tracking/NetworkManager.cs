@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class NetworkManager : MonoBehaviour
 {
-  [SerializeField] private PointListAnnotation pointListAnnotation;
   [SerializeField] private float UserHeightInMeters = 1.7f;
   [SerializeField] private string OscTargetIp = "127.0.0.1";
   [SerializeField] private int OscTargetPort = 9000;
@@ -35,10 +34,10 @@ public class NetworkManager : MonoBehaviour
   // Average 23 and 24 for Hips
   void Update()
   {
-    if (oscClient == null || pointListAnnotation.Landmarks == null)
+    if (oscClient == null || PointListAnnotation.Landmarks == null)
       return;
 
-    if (pointListAnnotation.Landmarks.Count < 32)
+    if (PointListAnnotation.Landmarks.Count < 32)
       return;
 
     if (IsCombinedPointValid((int)MediaPipeBodyPart.Hips_L, (int)MediaPipeBodyPart.Hips_R))
@@ -70,12 +69,12 @@ public class NetworkManager : MonoBehaviour
 
   private bool IsCombinedPointValid(int one, int two, float threshold = 0.8f)
   {
-    return (pointListAnnotation.Landmarks[one].Visibility + pointListAnnotation.Landmarks[two].Visibility) / 2 >= threshold;
+    return (PointListAnnotation.Landmarks[one].Visibility + PointListAnnotation.Landmarks[two].Visibility) / 2 >= threshold;
   }
 
   private bool IsPointValid(int one, float threshold = 0.8f)
   {
-    return pointListAnnotation.Landmarks[one].Visibility >= threshold;
+    return PointListAnnotation.Landmarks[one].Visibility >= threshold;
   }
 
   private Vector3 GetAverageVector3(int one, int two)
@@ -86,9 +85,9 @@ public class NetworkManager : MonoBehaviour
   private Vector3 GetVector3(int index)
   {
     return new Vector3(
-      pointListAnnotation.Landmarks[index].X,
-      pointListAnnotation.Landmarks[index].Y,
-      pointListAnnotation.Landmarks[index].Z
+      PointListAnnotation.Landmarks[index].X,
+      PointListAnnotation.Landmarks[index].Y,
+      PointListAnnotation.Landmarks[index].Z
     );
   }
 
