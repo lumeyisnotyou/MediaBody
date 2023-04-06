@@ -38,6 +38,9 @@ public class NetworkManager : MonoBehaviour
     if (oscClient == null || pointListAnnotation.Landmarks == null)
       return;
 
+    if (pointListAnnotation.Landmarks.Count < 32)
+      return;
+
     if (IsCombinedPointValid((int)MediaPipeBodyPart.Hips_L, (int)MediaPipeBodyPart.Hips_R))
       oscClient.Send($"/tracking/trackers/1/position", GetAverageVector3((int)MediaPipeBodyPart.Hips_L, (int)MediaPipeBodyPart.Hips_R) * scaleFactor);
 
