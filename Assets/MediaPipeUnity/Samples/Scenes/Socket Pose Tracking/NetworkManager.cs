@@ -21,6 +21,7 @@ public class NetworkManager : MonoBehaviour
   {
     scaleFactor = UserHeightInMeters / SENDER_AVATAR_HEIGHT;
     oscClient = new OscCore.OscClient(OscTargetIp, OscTargetPort);
+    UnityEngine.Screen.sleepTimeout = SleepTimeout.NeverSleep;
   }
 
   // Priority => Hips, Left Foot, Right Foot, Left Elbow, Right Elbow, Left Knee, Right Knee, Chest

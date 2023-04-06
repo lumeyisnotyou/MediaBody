@@ -19,7 +19,7 @@ namespace Mediapipe.Unity
   {
     [SerializeField] private Color _color = Color.green;
     [SerializeField] private float _radius = 15.0f;
-
+    public static IList<Landmark> Landmarks { get; private set; }
 #if UNITY_EDITOR
     private void OnValidate()
     {
@@ -56,6 +56,7 @@ namespace Mediapipe.Unity
 
     public void Draw(IList<Landmark> targets, Vector3 scale, bool visualizeZ = true)
     {
+      Landmarks = targets;
       if (ActivateFor(targets))
       {
         CallActionForAll(targets, (annotation, target) =>
