@@ -20,6 +20,7 @@ public class NetworkManager : MonoBehaviour
 
   private void Start()
   {
+    UnityEngine.Screen.sleepTimeout = SleepTimeout.NeverSleep;
     scaleFactor = UserHeightInMeters / SENDER_AVATAR_HEIGHT;
     var config = NetworkConfigLoader.LoadConfig();
     oscClient = new OscCore.OscClient(config.address, config.port);
