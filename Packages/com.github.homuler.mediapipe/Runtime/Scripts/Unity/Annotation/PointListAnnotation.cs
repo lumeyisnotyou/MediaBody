@@ -5,6 +5,7 @@
 // https://opensource.org/licenses/MIT.
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 using mplt = Mediapipe.LocationData.Types;
@@ -19,6 +20,13 @@ namespace Mediapipe.Unity
   {
     [SerializeField] private Color _color = Color.green;
     [SerializeField] private float _radius = 15.0f;
+
+    public static IList<Landmark> Landmarks { get; private set; }
+
+    private void Awake()
+    {
+      Landmarks = Enumerable.Empty<Landmark>().ToList();
+    }
 
 #if UNITY_EDITOR
     private void OnValidate()
@@ -56,6 +64,7 @@ namespace Mediapipe.Unity
 
     public void Draw(IList<Landmark> targets, Vector3 scale, bool visualizeZ = true)
     {
+      Landmarks = targets;
       if (ActivateFor(targets))
       {
         CallActionForAll(targets, (annotation, target) =>
