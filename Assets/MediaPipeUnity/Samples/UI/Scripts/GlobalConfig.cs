@@ -15,12 +15,18 @@ namespace Mediapipe.Unity.UI
     private const string _GlogMinloglevelPath = "Scroll View/Viewport/Contents/GlogMinloglevel/Dropdown";
     private const string _GlogVPath = "Scroll View/Viewport/Contents/GlogV/Dropdown";
     private const string _GlogLogDirPath = "Scroll View/Viewport/Contents/GlogLogDir/InputField";
+    private const string _GlogAddressPath = "Scroll View/Viewport/Contents/GLogAddress/InputField";
+    private const string _GlogPortPath = "Scroll View/Viewport/Contents/GLogPort/InputField";
 
     private Toggle _glogLogtostderrInput;
     private Dropdown _glogStderrthresholdInput;
     private Dropdown _glogMinloglevelInput;
     private Dropdown _glogVInput;
     private InputField _glogLogDirInput;
+
+    private InputField _glogAddressInput;
+    private InputField _glogPortInput;
+    private NetworkManager _networkManager;
 
     private void Start()
     {
@@ -29,6 +35,13 @@ namespace Mediapipe.Unity.UI
       InitializeGlogMinloglevel();
       InitializeGlogV();
       InitializeGlogLogDir();
+      InitializeGlogAddress();
+      InitializeGlogPort();
+
+      _networkManager = FindObjectOfType<NetworkManager>();
+      var config = NetworkConfigLoader.LoadConfig();
+      _glogAddressInput.text = config.address;
+      _glogPortInput.text = config.port.ToString();
     }
 
     public void SaveAndExit()
@@ -38,6 +51,11 @@ namespace Mediapipe.Unity.UI
       GlobalConfigManager.GlogMinloglevel = _glogMinloglevelInput.value;
       GlobalConfigManager.GlogLogDir = _glogLogDirInput.text;
       GlobalConfigManager.GlogV = _glogVInput.value;
+
+      if (_networkManager != null)
+      {
+        _networkManager.UpdateOSCClient(_glogAddressInput.text, _glogPortInput.text);
+      }
 
       GlobalConfigManager.Commit();
       Exit();
@@ -71,6 +89,16 @@ namespace Mediapipe.Unity.UI
     {
       _glogLogDirInput = gameObject.transform.Find(_GlogLogDirPath).gameObject.GetComponent<InputField>();
       _glogLogDirInput.text = GlobalConfigManager.GlogLogDir;
+    }
+
+    private void InitializeGlogAddress()
+    {
+      _glogAddressInput = gameObject.transform.Find(_GlogAddressPath).gameObject.GetComponent<InputField>();
+    }
+
+    private void InitializeGlogPort()
+    {
+      _glogPortInput = gameObject.transform.Find(_GlogPortPath).gameObject.GetComponent<InputField>();
     }
   }
 }
